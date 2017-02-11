@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { THUMBNAIL_SERVICE } from './config';
 import ImageCardThumbnail from './ImageCardThumbnail';
 
 class ImageCard extends Component {
@@ -13,8 +14,8 @@ class ImageCard extends Component {
           <ImageCardThumbnail
             filename={this.props.data.properties.filename}
             entry_id={this.props.data.properties.entry_id}
-            size={'120'}
-            format={'jpeg'}
+            size={THUMBNAIL_SERVICE.size}
+            format={THUMBNAIL_SERVICE.format}
           />
         </div>
         <div className="media-body media-middle">
