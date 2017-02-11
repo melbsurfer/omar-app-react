@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { WFS_URL } from './config';
 
-import ImageCard from './ImageCard'
+import ImageCard from './ImageCard';
 
 class ImageList extends Component {
   constructor() {
@@ -16,7 +16,8 @@ class ImageList extends Component {
   componentDidMount() {
 
     // Grab the image list from the server
-    fetch(WFS_URL + '/getFeature?' +
+    fetch(WFS_URL +
+      '/getFeature?' +
       'service=WFS' +
       '&version=1.0.0' +
       '&request=GetFeature ' +
@@ -38,18 +39,22 @@ class ImageList extends Component {
   render() {
     if(this.state.images){
       return (
-        <div >
-          <ul>
-          {/* TODO: Need to create an image component that will hold
-          be the individual card */}
-          {this.state.images.map(function(image, index){
-            return <li key={ index }><ImageCard data={image} /></li>;
-          })}
-          {/* TODO: Convert the map above to es6 syntax and map over the images
-          {this.state.images.map(image, index) =>
-            return <li key={ index }>{image.properties.id}</li>;
-          } */}
-          </ul>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-8 col-md-offset-2">
+              <ul className="list-unstyled">
+              {/* TODO: Need to create an image component that will hold
+              be the individual card */}
+              {this.state.images.map(function(image, index){
+                return <li className="card" key={ index }><ImageCard data={ image } /></li>;
+              })}
+              {/* TODO: Convert the map above to es6 syntax and map over the images
+              {this.state.images.map(image, index) =>
+                return <li key={ index }>{image.properties.id}</li>;
+              } */}
+              </ul>
+            </div>
+          </div>
         </div>
       )
     } else {
