@@ -7,6 +7,6 @@ export const REACT_VERSION = pjson.dependencies.react;
 export const WFS_URL = 'http://dev.o2.radiantbluecloud.com/o2-wfs/wfs';
 export const THUMBNAIL_SERVICE = {
   url: 'http://dev.o2.radiantbluecloud.com/o2-wms/imageSpace/getThumbnail',
-  size: 120,
+  size: 140,
   format: 'jpeg'
 }

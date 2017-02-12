@@ -41,7 +41,6 @@ class App extends Component {
           <div id="content">
             <section className="row colset-2-its">
               <h1 style={{textAlign: 'center'}}>O2</h1>
-              <br/>
               {/*<p>
                 Congratulations, you have successfully started your first Grails + React application! While in development mode, changes will be loaded automatically when you edit your React app, without even refreshing the page.
                 Below is a list of controllers that are currently deployed in
@@ -59,7 +58,6 @@ class App extends Component {
               </div>
               */}
             </section>
-
           </div>
         </Grid>
         <AppWfs/>
