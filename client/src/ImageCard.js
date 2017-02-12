@@ -10,7 +10,6 @@ class ImageCard extends Component {
     return (
       <div className="media ">
         <div className="media-left">
-          {/*<img className="media-object" src={"http://placehold.it/120x120"}/>*/}
           <ImageCardThumbnail
             filename={this.props.data.properties.filename}
             entry_id={this.props.data.properties.entry_id}

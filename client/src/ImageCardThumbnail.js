@@ -20,8 +20,7 @@ class ImageCardThumbnail extends Component {
       '&entry_id=' + this.props.entry_id +
       '&size=' + this.props.size +
       '&format=' + this.props.format
-
-      console.log('url: ', url);
+      
       this.setState({
         thumbUrl: url
       });
@@ -33,6 +32,13 @@ class ImageCardThumbnail extends Component {
       <img className="media-object" src={this.state.thumbUrl} role="presentation"/>
     )
   }
+}
+
+ImageCardThumbnail.propTypes = {
+  filename: React.PropTypes.string.isRequired,
+  entry_id: React.PropTypes.string.isRequired,
+  size: React.PropTypes.number.isRequired,
+  format: React.PropTypes.string.isRequired
 }
 
 export default ImageCardThumbnail;
