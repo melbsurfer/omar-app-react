@@ -29,7 +29,23 @@ class ImageListFilter extends Component {
 
   render() {
     return (
-      <h1>Filter</h1>
+      <div className="well">
+        <form className="form-horizontal">
+          <fieldset>
+            <legend>Filters</legend>
+          </fieldset>
+          <div className="form-group">
+            <label htmlFor="filename" className="col-md-2 control-label">File name</label>
+            <div className="col-md-8">
+              <input type="text" className="form-control" id="filename" placeholder="File name"/>
+            </div>
+          </div>
+        </form>
+        <br/>
+        <button className="btn btn-primary">Submit</button>
+        &nbsp;
+        <button className="btn btn-default">Reset</button>
+      </div>
     )
   }
 }

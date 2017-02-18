@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { WFS_URL } from './config';
 
+import ImageListFilter from './ImageListFilter';
 import ImageCard from './ImageCard';
 
 class ImageList extends Component {
@@ -42,11 +43,17 @@ class ImageList extends Component {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-8 col-md-offset-2">
+              <ImageListFilter />
+            </div>
+          </div>
+          <br/>
+          <div className="row">
+            <div className="col-md-8 col-md-offset-2">
               <ul className="list-unstyled">
               {/* TODO: Need to create an image component that will hold
               be the individual card */}
               {this.state.images.map(function(image, index){
-                return <li className="card" key={ index }><ImageCard data={ image } /></li>;
+                return <li className="panel panel-default card" key={ index }><ImageCard data={ image } /></li>;
               })}
               {/* TODO: Convert the map above to es6 syntax and map over the images
               {this.state.images.map(image, index) =>

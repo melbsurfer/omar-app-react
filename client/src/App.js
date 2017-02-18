@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import AppNav from './AppNav';
 
-import ImageListFilter from './ImageListFilter';
 import ImageList from './ImageList';
 
 //import grailsLogo from './images/grails-cupsonly-logo-white.svg';
@@ -40,7 +39,6 @@ class App extends Component {
             </section>
           </div>
         </Grid>
-        <ImageListFilter />
         <ImageList />
       </div>
 
