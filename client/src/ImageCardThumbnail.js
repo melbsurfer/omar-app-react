@@ -20,7 +20,7 @@ class ImageCardThumbnail extends Component {
       '&entry_id=' + this.props.entry_id +
       '&size=' + this.props.size +
       '&format=' + this.props.format
-      
+
       this.setState({
         thumbUrl: url
       });
@@ -29,7 +29,10 @@ class ImageCardThumbnail extends Component {
 
   render() {
     return (
-      <img className="media-object" src={this.state.thumbUrl} role="presentation"/>
+      <div>
+        <img className="media-object" src={this.state.thumbUrl} role="presentation"/>
+      </div>
+
     )
   }
 }

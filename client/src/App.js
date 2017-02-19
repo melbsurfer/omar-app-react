@@ -3,11 +3,7 @@ import { Grid } from 'react-bootstrap';
 import AppNav from './AppNav';
 
 import ImageListFilter from './ImageListFilter';
-import ImageList from './ImageList';
 
-//import grailsLogo from './images/grails-cupsonly-logo-white.svg';
-//import reactLogo from './images/logo.svg';
-//import { SERVER_URL, CLIENT_VERSION, REACT_VERSION } from './config';
 import { CLIENT_VERSION, REACT_VERSION } from './config';
 import 'whatwg-fetch';
 
@@ -41,7 +37,6 @@ class App extends Component {
           </div>
         </Grid>
         <ImageListFilter />
-        <ImageList />
       </div>
 
     );
