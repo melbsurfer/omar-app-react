@@ -2,12 +2,21 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { WFS_URL } from './config';
 
+import ImageList from './ImageList';
+
 class ImageListFilter extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      images: []
+    }
+  }
 
   componentDidMount() {
 
     // Grab the image list from the server
-    {/*fetch(WFS_URL +
+    fetch(WFS_URL +
       '/getFeature?' +
       'service=WFS' +
       '&version=1.0.0' +
@@ -23,31 +32,50 @@ class ImageListFilter extends Component {
         images = data.features.map(image => image);
         console.log('images', images);
         this.setState({images: images});
-      });*/}
+      });
 
   }
 
   render() {
-    return (
-      <div className="well">
-        <form className="form-horizontal">
-          <fieldset>
-            <legend>Filters</legend>
-          </fieldset>
-          <div className="form-group">
-            <label htmlFor="filename" className="col-md-2 control-label">File name</label>
-            <div className="col-md-8">
-              <input type="text" className="form-control" id="filename" placeholder="File name"/>
+
+    if (this.state.images){
+      console.log('render images: ', this.state.images)
+      return (
+        <div>
+          <div className="well">
+            <div className="row">
+              <form className="form">
+                <fieldset>
+                  <legend>Filters</legend>
+                </fieldset>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label htmlFor="imageId">Image Id:</label>
+                    <input type="text" className="form-control" id="ImageId"/>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="fileName">File name:</label>
+                    <input type="text" className="form-control" id="fileName"/>
+                  </div>
+                </div>
+              </form>
+              <br/>
+            </div>
+            <div className="row">
+              <button className="btn btn-primary">Submit</button>
+              &nbsp;
+              <button className="btn btn-default">Reset</button>
             </div>
           </div>
-        </form>
-        <br/>
-        <button className="btn btn-primary">Submit</button>
-        &nbsp;
-        <button className="btn btn-default">Reset</button>
-      </div>
-    )
+          <div className="row">
+            <div className="col-md-12">
+              <p>Image List</p>
+              <ImageList data={this.state.images}/>
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 }
-
 export default ImageListFilter;

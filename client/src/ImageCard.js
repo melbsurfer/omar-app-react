@@ -9,6 +9,7 @@ class ImageCard extends Component {
   render() {
     return (
       <div className="media">
+        <p>Image card</p>
         <div className="media-left">
           <ImageCardThumbnail
             filename={this.props.data.properties.filename}
