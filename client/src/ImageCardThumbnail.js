@@ -30,7 +30,6 @@ class ImageCardThumbnail extends Component {
   render() {
     return (
       <div>
-        <p>Image Thumbnail</p>
         <img className="media-object" src={this.state.thumbUrl} role="presentation"/>
       </div>
 

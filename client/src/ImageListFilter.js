@@ -13,7 +13,13 @@ class ImageListFilter extends Component {
     }
   }
 
-  componentDidMount() {
+  onExecuteWfsRequest(items) {
+
+    items = 'Public_img460.tif';
+    let filter = '';
+    if(!items === undefined) {
+      filter = '&filter=' + encodeURIComponent(`filename like '%${items}%' `);
+    }
 
     // Grab the image list from the server
     fetch(WFS_URL +
@@ -24,7 +30,10 @@ class ImageListFilter extends Component {
       '&typeName=omar%3Araster_entry' +
       '&resultType=results' +
       '&outputFormat=JSON' +
-      '&maxFeatures=100'+
+      //"&filter=" + encodeURIComponent("filename like '%Public_img46.tif%' ") +
+      //"&filter=" + encodeURIComponent(`filename like '%${item}%' `)  +
+      filter +
+      '&maxFeatures=200' +
       '&startIndex=0')
       .then(blob => blob.json())
       .then((data) => {
@@ -36,10 +45,14 @@ class ImageListFilter extends Component {
 
   }
 
+  componentDidMount() {
+    this.onExecuteWfsRequest();
+  }
+
   render() {
 
     if (this.state.images){
-      console.log('render images: ', this.state.images)
+
       return (
         <div>
           <div className="well">
@@ -62,14 +75,13 @@ class ImageListFilter extends Component {
               <br/>
             </div>
             <div className="row">
-              <button className="btn btn-primary">Submit</button>
+              <button onClick={()=> this.onExecuteWfsRequest()} className="btn btn-primary">Submit</button>
               &nbsp;
               <button className="btn btn-default">Reset</button>
             </div>
           </div>
           <div className="row">
             <div className="col-md-12">
-              <p>Image List</p>
               <ImageList data={this.state.images}/>
             </div>
           </div>
