@@ -9,16 +9,28 @@ class ImageListFilter extends Component {
     super();
 
     this.state = {
-      images: []
+      images: [],
+      filters: {
+        filename: 'foo',
+        id: 'bar'
+      }
     }
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  onExecuteWfsRequest(items) {
+  handleChange(event) {
+    console.log(event.target.value);
+  }
 
-    items = 'Public_img460.tif';
+  onExecuteWfsRequest(filterItems) {
+
+    //filterItems = 'Public_img460.tif';
     let filter = '';
-    if(!items === undefined) {
-      filter = '&filter=' + encodeURIComponent(`filename like '%${items}%' `);
+
+    if(filterItems) {
+      console.log('items ', filterItems);
+      filter = '&filter=' + encodeURIComponent(`filename like '%${filterItems}%' `);
     }
 
     // Grab the image list from the server
@@ -30,8 +42,6 @@ class ImageListFilter extends Component {
       '&typeName=omar%3Araster_entry' +
       '&resultType=results' +
       '&outputFormat=JSON' +
-      //"&filter=" + encodeURIComponent("filename like '%Public_img46.tif%' ") +
-      //"&filter=" + encodeURIComponent(`filename like '%${item}%' `)  +
       filter +
       '&maxFeatures=200' +
       '&startIndex=0')
@@ -64,11 +74,11 @@ class ImageListFilter extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="imageId">Image Id:</label>
-                    <input type="text" className="form-control" id="ImageId"/>
+                    <input type="text" className="form-control" id="ImageId" value={this.state.filters.filename} onChange={this.handleChange}/>
                   </div>
                   <div className="form-group">
                     <label htmlFor="fileName">File name:</label>
-                    <input type="text" className="form-control" id="fileName"/>
+                    <input type="text" className="form-control" id="fileName" value={this.state.filters.id} onChange={this.handleChange}/>
                   </div>
                 </div>
               </form>

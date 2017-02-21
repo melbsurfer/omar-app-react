@@ -4,7 +4,7 @@ import AppNav from './AppNav';
 
 import ImageListFilter from './ImageListFilter';
 
-import { CLIENT_VERSION, REACT_VERSION } from './config';
+import { WFS_OBJ } from './config';
 import 'whatwg-fetch';
 
 class App extends Component {
@@ -13,21 +13,15 @@ class App extends Component {
     super();
 
     this.state = {
-      serverInfo: {},
-      clientInfo: {
-        version: CLIENT_VERSION,
-        react: REACT_VERSION
-      }
+      wfsObj: WFS_OBJ
     }
   }
 
   render() {
-    const serverInfo = this.state.serverInfo;
-    const clientInfo = this.state.clientInfo;
 
     return (
       <div>
-        <AppNav serverInfo={serverInfo} clientInfo={clientInfo}/>
+        <AppNav/>
         <Grid>
           <div id="content">
             <section className="row colset-2-its">
@@ -36,7 +30,7 @@ class App extends Component {
             </section>
           </div>
         </Grid>
-        <ImageListFilter />
+        <ImageListFilter wfs={this.state.wfsObj}/>
       </div>
 
     );
