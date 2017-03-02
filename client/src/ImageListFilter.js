@@ -12,38 +12,30 @@ class ImageListFilter extends Component {
       images: [],
       filename: '',
       id: ''
-      //value: ''
     }
 
-    //this.handleWfsRequest = this.handleWfsRequest.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    //this.setState({filename: event.target.value});
+  handleFilterSubmit = (event) => {
 
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    })
-
-    console.log('state: ', this.state);
-
-  }
-
-  handleSubmit(event) {
-    console.log(this.state);
-    this.wfsRequest(this.state);
     event.preventDefault();
+
+    let filename = this.filename.value;
+    let id = this.id.value;
+
+    console.log('filename: ', this.filename.value);
+    console.log('id: ', this.id.value);
+
+    this.setState(Object.assign(this.state, {
+      filename,
+      id
+    }));
+
   }
 
   wfsRequest(filterItems) {
 
-  console.log('filterItems: ', filterItems);
+    console.log('filterItems: ', filterItems);
     //filterItems = 'Public_img460.tif';
     let filter = '';
 
@@ -79,25 +71,25 @@ class ImageListFilter extends Component {
   }
 
   render() {
-
+    console.log('State in the render:', this.state);
     if (this.state.images){
 
       return (
         <div>
           <div className="well">
             <div className="row">
-              <form className="form" onSubmit={this.handleSubmit}>
+              <form className="form" onSubmit={this.handleFilterSubmit}>
                 <fieldset>
                   <legend>Filters</legend>
                 </fieldset>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="imageId">Image Id:</label>
-                    <input type="text" className="form-control" name="id" value={this.state.imageId} onChange={this.handleChange}/>
+                    <input type="text" className="form-control" ref={ (value) => this.id = value } />
                   </div>
                   <div className="form-group">
                     <label htmlFor="fileName">File name:</label>
-                    <input type="text" className="form-control" name="filename" value={this.state.filename} onChange={this.handleChange}/>
+                    <input type="text" className="form-control" ref={ (value) => this.filename = value } />
                   </div>
                 </div>
                 <button type="submit" value="Submit" className="btn btn-primary">Submit</button>
