@@ -12,7 +12,7 @@ class ImageListForm extends Component {
       images: [],
       filename: '',
       id: ''
-    }
+    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
 
@@ -34,7 +34,7 @@ class ImageListForm extends Component {
     // }));
 
     console.log('State in the handleFilterSubmit:', this.state);
-    //wfsRequest()
+    this.wfsRequest(this.state);
 
   }
 
@@ -49,18 +49,20 @@ class ImageListForm extends Component {
 
   }
 
-  wfsRequest(filterItems) {
+  wfsRequest(filterObj) {
 
-    console.log('filterItems: ', filterItems);
-    //filterItems = 'Public_img460.tif';
+    console.log('filterObj: ', filterObj);
+    //filterObj = 'Public_img460.tif';
     let filter = '';
 
-    if(filterItems) {
-      console.log('items ', filterItems.filename);
-      filter = '&filter=' + encodeURIComponent(`filename like '%${filterItems.filename}%' `);
+    if(filterObj) {
+      filter = '&filter=' + encodeURIComponent(`filename like '%${filterObj.filename}%' `);
+      console.log(`filter: ${filter}`);
     }
 
     // Grab the image list from the server
+
+    // TODO: Refactor query items into a map or object
     fetch(WFS_URL +
       '/getFeature?' +
       'service=WFS' +
@@ -70,24 +72,24 @@ class ImageListForm extends Component {
       '&resultType=results' +
       '&outputFormat=JSON' +
       filter +
-      '&maxFeatures=200' +
+      '&maxFeatures=20' +
       '&startIndex=0')
       .then(blob => blob.json())
       .then((data) => {
         let images = [];
         images = data.features.map(image => image);
-        console.log('images', images);
+        //console.log('images', images);
         this.setState({images: images});
       });
 
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.wfsRequest();
   }
 
   render() {
-    console.log('State in the render:', this.state);
+    //console.log('State in the render:', this.state);
     if (this.state.images){
 
       return (
@@ -101,11 +103,11 @@ class ImageListForm extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label htmlFor="imageId">Image Id:</label>
-                    <input type="text" className="form-control"  name="id" value={this.state.id} onChange={this.handleInputChange} />
+                    <input type="text" className="form-control" name="id" value={this.state.id} onChange={this.handleInputChange} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="fileName">File name:</label>
-                    <input type="text" className="form-control"  name="filename" value={this.state.filename} onChange={this.handleInputChange} />
+                    <input type="text" className="form-control" name="filename" value={this.state.filename} onChange={this.handleInputChange} />
                   </div>
                 </div>
                 <button type="submit" value="Submit" className="btn btn-primary">Submit</button>

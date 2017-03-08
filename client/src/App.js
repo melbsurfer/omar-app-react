@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Grid } from 'react-bootstrap';
 import AppNav from './AppNav';
 
-import ImageListFilter from './ImageListFilter';
+import ImageListForm from './ImageListForm';
 
 import { WFS_OBJ } from './config';
 import 'whatwg-fetch';
@@ -30,7 +30,7 @@ class App extends Component {
             </section>
           </div>
         </Grid>
-        <ImageListFilter wfs={this.state.wfsObj}/>
+        <ImageListForm wfs={this.state.wfsObj}/>
       </div>
 
     );
