@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { WFS_URL } from './config';
+//import { WFS_URL } from './config';
 
 import ImageList from './ImageList';
+
+//import WfsRequest from './libs/Wfs'
+import Wfs from './libs/Wfs'
 
 class ImageListForm extends Component {
   constructor() {
@@ -43,116 +46,144 @@ class ImageListForm extends Component {
 
   wfsRequest(filterObj) {
 
-    console.log('filterObj: ', filterObj);
+    const wfs = new Wfs();
+
+    wfs.getResultsData('aCoolObj').then(function(data) {
+
+      console.log('wfs.getResultsData: ', data);
+      this.setState({images: data});
+
+    }.bind(this));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //WfsRequest(null);
+    //console.log('filterObj: ', filterObj);
 
     //filterObj = 'Public_img460.tif';
-    let filterArray = [];
-    let filterClause = '';
-    let filter = '';
+    // let filterArray = [];
+    // let filterClause = '';
+    // let filter = '';
 
-    if(filterObj) {
-      // filter = encodeURIComponent(`filename like '%${filterObj.filename}%' `);
-      // console.log(`filter: ${filter}`);
+    // if(filterObj) {
+    //   // filter = encodeURIComponent(`filename like '%${filterObj.filename}%' `);
+    //   // console.log(`filter: ${filter}`);
+    //
+    //   // TODO Maybe? Wrap this in a function that takes in the filterobj[key], and then
+    //   // uses the logic to add the item to the filter array?
+    //
+    //   // In Progress: Write an if...then that checks for the item values on the form.  If
+    //   // their value is populated we need to add it to the clause array.  If not
+    //   // disregard it...
+    //   if(filterObj.filename !== '') {
+    //     //clause = [dbName + " LIKE '%", formField.trim().toUpperCase(), "%'"].join("");
+    //     filterClause = [`filename LIKE '%${filterObj.filename}%'`].join(``);
+    //     //console.log(`filterObj.filename is: ${filterObj.filename}`);
+    //     //console.log('filterClauseArray: ', filterClauseArray);
+    //
+    //     filterArray.push(filterClause);
+    //     console.log('filterArray: ', filterArray);
+    //
+    //     filter = encodeURIComponent(filterArray.join(" AND "));
+    //     console.log('filter: ', filter);
+    //
+    //   }
+    //   else if(filterObj.id !== '') {
+    //
+    //     filterClause = [`id LIKE '%${filterObj.id}%'`].join(``);
+    //     filterArray.push(filterClause);
+    //
+    //     console.log('filterArray: ', filterArray);
+    //
+    //     filter = encodeURIComponent(filterArray.join(" AND "));
+    //     console.log('filter: ', filter);
+    //
+    //   }
+    //
+    //   // for (var prop in filterObj) {
+    //   //   //console.log('filterObj.' + prop, '=', filterObj[prop]);
+    //   //
+    //   //   if (filterObj[prop] === '' || filterObj[prop] === 'images') {
+    //   //     console.log(`${prop} is empty!`);
+    //   //   }
+    //   //   else {
+    //   //     //console.log('filterObj.' + prop, '=', filterObj[prop]);
+    //   //     console.log(`${prop} LIKE '%${filterObj[prop]}%'`)
+    //   //   }
+    //   // }
+    // }
+    //
+    // // TODO:  Add ability to catch errors, and present
+    // // it to the user: https://www.youtube.com/watch?v=MjavMX8fUAE&feature=youtu.be
+    // fetch(WFS_URL+
+    //   '/getFeature?' +
+    //   'service=WFS' +
+    //   '&request=GetFeature ' +
+    //   '&typeName=omar%3Araster_entry' +
+    //   '&outputFormat=JSON' +
+    //   '&filter=' + encodeURIComponent(filter) +
+    //   '&resultType=hits')
+    //   .then(response => {
+    //     console.log('response: ', response);
+    //     if(!response) {
+    //       alert('A network error has occurred!');
+    //     }
+    //     if(!response.ok){
+    //       throw Error('Network error has occurred!');
+    //     }
+    //     return response;
+    //   })
+    //   .then(data => data.json())
+    //   .then((data) => {
+    //     //console.log('data: ', data);
+    //     this.setState({totalFeatures: data.totalFeatures})
+    //   })
 
-      // TODO Maybe? Wrap this in a function that takes in the filterobj[key], and then
-      // uses the logic to add the item to the filter array?
-
-      // In Progress: Write an if...then that checks for the item values on the form.  If
-      // their value is populated we need to add it to the clause array.  If not
-      // disregard it...
-      if(filterObj.filename !== '') {
-        //clause = [dbName + " LIKE '%", formField.trim().toUpperCase(), "%'"].join("");
-        filterClause = [`filename LIKE '%${filterObj.filename}%'`].join(``);
-        //console.log(`filterObj.filename is: ${filterObj.filename}`);
-        //console.log('filterClauseArray: ', filterClauseArray);
-
-        filterArray.push(filterClause);
-        console.log('filterArray: ', filterArray);
-
-        filter = encodeURIComponent(filterArray.join(" AND "));
-        console.log('filter: ', filter);
-
-      }
-      else if(filterObj.id !== '') {
-
-        filterClause = [`id LIKE '%${filterObj.id}%'`].join(``);
-        filterArray.push(filterClause);
-
-        console.log('filterArray: ', filterArray);
-
-        filter = encodeURIComponent(filterArray.join(" AND "));
-        console.log('filter: ', filter);
-
-      }
-
-      // for (var prop in filterObj) {
-      //   //console.log('filterObj.' + prop, '=', filterObj[prop]);
-      //
-      //   if (filterObj[prop] === '' || filterObj[prop] === 'images') {
-      //     console.log(`${prop} is empty!`);
-      //   }
-      //   else {
-      //     //console.log('filterObj.' + prop, '=', filterObj[prop]);
-      //     console.log(`${prop} LIKE '%${filterObj[prop]}%'`)
-      //   }
-      // }
-    }
-
-    // TODO:  Add ability to catch errors, and present
-    // it to the user: https://www.youtube.com/watch?v=MjavMX8fUAE&feature=youtu.be
-    fetch(WFS_URL+
-      '/getFeature?' +
-      'service=WFS' +
-      '&request=GetFeature ' +
-      '&typeName=omar%3Araster_entry' +
-      '&outputFormat=JSON' +
-      '&filter=' + encodeURIComponent(filter) +
-      '&resultType=hits')
-      .then(response => {
-        if(!response.ok){
-          throw Error('Network error has occurred!');
-        }
-        return response;
-      })
-      .then(data => data.json())
-      .then((data) => {
-        //console.log('data: ', data);
-        this.setState({totalFeatures: data.totalFeatures})
-      });
-
-    setTimeout(()=> {
-      // TODO:  Add ability to catch errors, and present
-      // it to the user: https://www.youtube.com/watch?v=MjavMX8fUAE&feature=youtu.be
-      fetch(WFS_URL +
-        '/getFeature?' +
-        'service=WFS' +
-        '&version=1.0.0' +
-        '&request=GetFeature ' +
-        '&typeName=omar%3Araster_entry' +
-        '&resultType=results' +
-        '&outputFormat=JSON' +
-        '&filter=' + encodeURIComponent(filter) +
-        '&maxFeatures=20' +
-        '&startIndex=0')
-        .then(response => {
-          if(!response.ok){
-            throw Error('Network error has occurred!');
-          }
-          return response;
-        })
-        .then(data => data.json())
-        .then((data) => {
-          let images = [];
-          images = data.features.map(image => image);
-          //console.log('images', images);
-          this.setState({images: images});
-        });
-    }, 5000)
-
+    // setTimeout(()=> {
+    //   // TODO:  Add ability to catch errors, and present
+    //   // it to the user: https://www.youtube.com/watch?v=MjavMX8fUAE&feature=youtu.be
+    //   fetch(WFS_URL +
+    //     '/getFeature?' +
+    //     'service=WFS' +
+    //     '&version=1.0.0' +
+    //     '&request=GetFeature ' +
+    //     '&typeName=omar%3Araster_entry' +
+    //     '&resultType=results' +
+    //     '&outputFormat=JSON' +
+    //     '&filter=' + encodeURIComponent(filter) +
+    //     '&maxFeatures=20' +
+    //     '&startIndex=0')
+    //     .then(response => {
+    //       if(!response.ok){
+    //         throw Error('Network error has occurred!');
+    //       }
+    //       return response;
+    //     })
+    //     .then(data => data.json())
+    //     .then((data) => {
+    //       let images = [];
+    //       images = data.features.map(image => image);
+    //       //console.log('images', images);
+    //       this.setState({images: images});
+    //     });
+    // }, 5000);
 
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.wfsRequest();
   }
 
