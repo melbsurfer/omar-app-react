@@ -3,7 +3,6 @@ import { WFS_URL } from '../config';
 class Wfs {
   constructor(){
     this.url = WFS_URL;
-    this.images = [];
   }
 
   getResultsData(obj) {
@@ -36,7 +35,35 @@ class Wfs {
 
   }
 
+  getHitsData(obj) {
 
+    let filter = '';
+
+    return fetch(WFS_URL+
+      '/getFeature?' +
+      'service=WFS' +
+      '&request=GetFeature ' +
+      '&typeName=omar%3Araster_entry' +
+      '&outputFormat=JSON' +
+      '&filter=' + encodeURIComponent(filter) +
+      '&resultType=hits')
+      .then(response => {
+        if(!response) {
+          alert('A network error has occurred!');
+        }
+        if(!response.ok){
+          throw Error('Network error has occurred!');
+        }
+        return response;
+      })
+      .then(data => data.json())
+      .then((data) => {
+
+        return data.totalFeatures;
+
+      });
+
+  }
 
 }
 

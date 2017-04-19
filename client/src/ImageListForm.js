@@ -55,6 +55,13 @@ class ImageListForm extends Component {
 
     }.bind(this));
 
+    wfs.getHitsData('anotherCoolObj').then(function(data) {
+
+      console.log('wfs.getHitsData:', data);
+      this.setState({totalFeatures: data});
+
+    }.bind(this));
+
 
 
 
