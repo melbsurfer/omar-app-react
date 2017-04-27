@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-//import { WFS_URL } from './config';
 
+// components
 import ImageList from './ImageList';
 
-//import WfsRequest from './libs/Wfs'
-import Wfs from './libs/Wfs'
+// libs
+import Wfs from './libs/Wfs';
+import WfsFilter from './libs/WfsFilter';
 
 class ImageListForm extends Component {
   constructor() {
@@ -15,17 +16,18 @@ class ImageListForm extends Component {
       images: [],
       totalFeatures: 'Calculating...',
       requestFailed: false,
-      filename: '',
-      id: '',
-      target: '',
-      wac: ''
+      filename: 'test file',
+      id: 'test id',
+      target: 'test target',
+      wac: 'test wac'
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
 
   }
 
-  handleFilterSubmit = (event) => {
+  handleFilterSubmit(event){
 
     event.preventDefault();
     //console.log('State in the handleFilterSubmit:', this.state);
@@ -34,6 +36,7 @@ class ImageListForm extends Component {
   }
 
   handleInputChange(event) {
+
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -46,40 +49,30 @@ class ImageListForm extends Component {
 
   wfsRequest(filterObj) {
 
+    console.log('filterObj: ', filterObj);
+
     const wfs = new Wfs();
+    const wfsFilter = new WfsFilter(filterObj);
 
-    wfs.getResultsData('aCoolObj').then(function(data) {
+    // TODO: Pass the incoming filterObj to wfsFilter.filterObj
+    //       and have it format it.
+    console.log('The filter is: ', wfsFilter.filter);
 
-      console.log('wfs.getResultsData: ', data);
+    wfs.getResultsData(wfsFilter).then(function(data) {
+
+      //console.log('wfs.getResultsData: ', data);
       this.setState({images: data});
 
     }.bind(this));
 
-    wfs.getHitsData('anotherCoolObj').then(function(data) {
+    wfs.getHitsData(wfsFilter).then(function(data) {
 
-      console.log('wfs.getHitsData:', data);
+      //console.log('wfs.getHitsData:', data);
       this.setState({totalFeatures: data});
 
     }.bind(this));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //WfsRequest(null);
     //console.log('filterObj: ', filterObj);
-
     //filterObj = 'Public_img460.tif';
     // let filterArray = [];
     // let filterClause = '';
@@ -119,7 +112,7 @@ class ImageListForm extends Component {
     //     console.log('filter: ', filter);
     //
     //   }
-    //
+
     //   // for (var prop in filterObj) {
     //   //   //console.log('filterObj.' + prop, '=', filterObj[prop]);
     //   //
@@ -195,7 +188,7 @@ class ImageListForm extends Component {
   }
 
   render() {
-    //console.log('State in the render:', this.state);
+    console.log('State in the render:', this.state);
     if (this.state.images.length === 0) {
       return (
         <div className="container">
@@ -212,57 +205,57 @@ class ImageListForm extends Component {
           </div>
         </div>)
     }
-      return (
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
-              <div className="well">
-                <p className="pull-right">Total Features: {this.state.totalFeatures}</p>
-                <div className="row">
-                  <form className="form" onSubmit={this.handleFilterSubmit}>
-                    <fieldset>
-                      <legend><span className="glyphicon glyphicon-filter" aria-hidden="true"></span>&nbsp;Keyword Filters</legend>
-                    </fieldset>
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8">
+            <div className="well">
+              <p className="pull-right">Total Features: {this.state.totalFeatures}</p>
+              <div className="row">
+                <form className="form" onSubmit={this.handleFilterSubmit}>
+                  <fieldset>
+                    <legend><span className="glyphicon glyphicon-filter" aria-hidden="true"></span>&nbsp;Keyword Filters</legend>
+                  </fieldset>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="imageId">Image Id:</label>
+                      <input type="text" className="form-control" name="id" value={this.state.id} onChange={this.handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="fileName">File name:</label>
+                      <input type="text" className="form-control" name="filename" value={this.state.filename} onChange={this.handleInputChange} />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label htmlFor="target">Target Id:</label>
+                      <input type="text" className="form-control" name="target" value={this.state.target} onChange={this.handleInputChange} />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="target">World Area Code:</label>
+                      <input type="text" className="form-control" name="wac" value={this.state.wac} onChange={this.handleInputChange} />
+                    </div>
+                  </div>
+                  <div className="row">
                     <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="imageId">Image Id:</label>
-                        <input type="text" className="form-control" name="id" value={this.state.id} onChange={this.handleInputChange} />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="fileName">File name:</label>
-                        <input type="text" className="form-control" name="filename" value={this.state.filename} onChange={this.handleInputChange} />
-                      </div>
+                      <button type="submit" value="Submit" className="btn btn-primary">Submit</button>
+                      &nbsp;
+                      <button className="btn btn-default">Reset</button>
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="target">Target Id:</label>
-                        <input type="text" className="form-control" name="target" value={this.state.target} onChange={this.handleInputChange} />
-                      </div>
-                      <div className="form-group">
-                        <label htmlFor="target">World Area Code:</label>
-                        <input type="text" className="form-control" name="wac" value={this.state.wac} onChange={this.handleInputChange} />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <button type="submit" value="Submit" className="btn btn-primary">Submit</button>
-                        &nbsp;
-                        <button className="btn btn-default">Reset</button>
-                      </div>
-                    </div>
-                  </form>
-                  <br/>
-                </div>
+                  </div>
+                </form>
+                <br/>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-8">
-              <ImageList data={this.state.images}/>
-            </div>
+        </div>
+        <div className="row">
+          <div className="col-md-8">
+            <ImageList data={this.state.images}/>
           </div>
         </div>
-      )
+      </div>
+    )
   }
 }
 export default ImageListForm;

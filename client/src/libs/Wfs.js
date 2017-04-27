@@ -1,6 +1,8 @@
 import { WFS_URL } from '../config';
+//import WfsFilter from './WfsFilter';
 
 class Wfs {
+
   constructor(){
     this.url = WFS_URL;
   }
