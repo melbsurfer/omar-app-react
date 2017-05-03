@@ -9,25 +9,26 @@ import Wfs from './libs/Wfs';
 import WfsFilter from './libs/WfsFilter';
 
 class ImageListForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       images: [],
       totalFeatures: 'Calculating...',
-      requestFailed: false,
-      filename: 'test file',
-      id: 'test id',
-      target: 'test target',
-      wac: 'test wac'
+      //requestFailed: false,
+      filename: '',
+      id: '',
+      sensor: '',
+      wac: ''
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
+    //this.handleTest = this.handleTest.bind(this);
 
   }
 
-  handleFilterSubmit(event){
+  handleFilterSubmit(event) {
 
     event.preventDefault();
     //console.log('State in the handleFilterSubmit:', this.state);
@@ -37,13 +38,21 @@ class ImageListForm extends Component {
 
   handleInputChange(event) {
 
+
     const target = event.target;
     const value = target.value;
     const name = target.name;
+    console.log(`Event: ${target.value}`);
 
     this.setState({
       [name]: value
     });
+
+  }
+
+  handleTest() {
+
+    console.log('test');
 
   }
 
@@ -188,7 +197,7 @@ class ImageListForm extends Component {
   }
 
   render() {
-    console.log('State in the render:', this.state);
+    console.log('State in the render: ', this.state);
     if (this.state.images.length === 0) {
       return (
         <div className="container">
@@ -210,7 +219,6 @@ class ImageListForm extends Component {
         <div className="row">
           <div className="col-md-8">
             <div className="well">
-              <p className="pull-right">Total Features: {this.state.totalFeatures}</p>
               <div className="row">
                 <form className="form" onSubmit={this.handleFilterSubmit}>
                   <fieldset>
@@ -218,33 +226,38 @@ class ImageListForm extends Component {
                   </fieldset>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label htmlFor="imageId">Image Id:</label>
-                      <input type="text" className="form-control" name="id" value={this.state.id} onChange={this.handleInputChange} />
+                      <label htmlFor="id">Image Id:</label>
+                      <input
+                        className="form-control"
+                        name="id"
+                        value={this.state.id}
+                        onChange={this.handleInputChange} />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="fileName">File name:</label>
-                      <input type="text" className="form-control" name="filename" value={this.state.filename} onChange={this.handleInputChange} />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label htmlFor="target">Target Id:</label>
-                      <input type="text" className="form-control" name="target" value={this.state.target} onChange={this.handleInputChange} />
+                      <label htmlFor="fileName">File Name:</label>
+                      <input
+                        className="form-control"
+                        name="filename"
+                        value={this.state.filename}
+                        onChange={this.handleInputChange} />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="target">World Area Code:</label>
-                      <input type="text" className="form-control" name="wac" value={this.state.wac} onChange={this.handleInputChange} />
+                      <label htmlFor="id">World Area Code:</label>
+                      <input
+                        className="form-control"
+                        name="wac"
+                        value={this.state.wac}
+                        onChange={this.handleInputChange} />
                     </div>
-                  </div>
-                  <div className="row">
+                    <div className="row">
                     <div className="col-md-6">
                       <button type="submit" value="Submit" className="btn btn-primary">Submit</button>
                       &nbsp;
                       <button className="btn btn-default">Reset</button>
                     </div>
                   </div>
+                  </div>
                 </form>
-                <br/>
               </div>
             </div>
           </div>
