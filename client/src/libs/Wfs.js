@@ -7,9 +7,11 @@ class Wfs {
     this.url = WFS_URL;
   }
 
-  getResultsData(obj) {
+  getResultsData(filter) {
 
-    let filter = '';
+    //console.log(`getResultsData filter: `, filter);
+    //let filter = '';
+    //let filter  = obj;
 
     return fetch(WFS_URL +
       '/getFeature?' +

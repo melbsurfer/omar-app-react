@@ -15,16 +15,20 @@ class ImageListForm extends Component {
     this.state = {
       images: [],
       totalFeatures: 'Calculating...',
-      //requestFailed: false,
+      requestFailed: false,
       filename: '',
       id: '',
       sensor: '',
-      wac: ''
+      wac: '',
+      target: '',
+      filterItems: {
+        item1: 'foo',
+        item2: 'bar'
+      }
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
-    //this.handleTest = this.handleTest.bind(this);
 
   }
 
@@ -36,45 +40,64 @@ class ImageListForm extends Component {
 
   }
 
-  handleInputChange(event) {
+  handleInputChange(newPartialInput) {
 
 
     const target = event.target;
     const value = target.value;
     const name = target.name;
-    console.log(`Event: ${target.value}`);
+    console.log(`Event: ${name}`);
 
     this.setState({
       [name]: value
     });
 
-  }
-
-  handleTest() {
-
-    console.log('test');
+    this.setState(state => ({
+      ...state,
+      filterItems: {
+        ...state.filterItems,
+        ...newPartialInput
+      }
+    }))
 
   }
 
   wfsRequest(filterObj) {
 
-    console.log('filterObj: ', filterObj);
+    console.log('filterObj', filterObj);
+    // filterObj = {
+    //   key1: 'val1',
+    //   key2: ''
+    // };
 
     const wfs = new Wfs();
-    const wfsFilter = new WfsFilter(filterObj);
+    let wfsFilter = new WfsFilter('');
 
-    // TODO: Pass the incoming filterObj to wfsFilter.filterObj
-    //       and have it format it.
-    console.log('The filter is: ', wfsFilter.filter);
+    if(filterObj === undefined) {
 
-    wfs.getResultsData(wfsFilter).then(function(data) {
+      console.log('filterObj is === undefined');
+      wfsFilter.filter = '';
+      //console.log('wfsFilter.filter', wfsFilter.filter);
+
+    }
+    else {
+
+      console.log('filterObj is defined!');
+      //wfsFilter.filter = "title LIKE '%CARTERRA%'";
+      wfsFilter.filter = filterObj;
+      //wfsFilter.filter = "title LIKE '%CARTERRA%'";
+      //console.log('wfsFilter.filter', wfsFilter.filter);
+
+    }
+
+    wfs.getResultsData(wfsFilter.filter).then(function(data) {
 
       //console.log('wfs.getResultsData: ', data);
       this.setState({images: data});
 
     }.bind(this));
 
-    wfs.getHitsData(wfsFilter).then(function(data) {
+    wfs.getHitsData(wfsFilter.filter).then(function(data) {
 
       //console.log('wfs.getHitsData:', data);
       this.setState({totalFeatures: data});
@@ -197,7 +220,7 @@ class ImageListForm extends Component {
   }
 
   render() {
-    console.log('State in the render: ', this.state);
+    //console.log('State in the render: ', this.state);
     if (this.state.images.length === 0) {
       return (
         <div className="container">
@@ -230,8 +253,8 @@ class ImageListForm extends Component {
                       <input
                         className="form-control"
                         name="id"
-                        value={this.state.id}
-                        onChange={this.handleInputChange} />
+                        value={this.state.filterItems.item1}
+                        onChange={e => this.handleInputChange({id: e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="fileName">File Name:</label>
@@ -241,6 +264,12 @@ class ImageListForm extends Component {
                         value={this.state.filename}
                         onChange={this.handleInputChange} />
                     </div>
+
+                    <button type="submit" value="Submit" className="btn btn-primary">Submit</button>
+                    &nbsp;
+                    <button className="btn btn-default">Reset</button>
+                  </div>
+                  <div className="col-md-6">
                     <div className="form-group">
                       <label htmlFor="id">World Area Code:</label>
                       <input
@@ -249,13 +278,14 @@ class ImageListForm extends Component {
                         value={this.state.wac}
                         onChange={this.handleInputChange} />
                     </div>
-                    <div className="row">
-                    <div className="col-md-6">
-                      <button type="submit" value="Submit" className="btn btn-primary">Submit</button>
-                      &nbsp;
-                      <button className="btn btn-default">Reset</button>
+                    <div className="form-group">
+                      <label htmlFor="id">Target:</label>
+                      <input
+                        className="form-control"
+                        name="target"
+                        value={this.state.target}
+                        onChange={this.handleInputChange} />
                     </div>
-                  </div>
                   </div>
                 </form>
               </div>

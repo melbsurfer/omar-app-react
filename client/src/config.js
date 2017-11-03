@@ -7,7 +7,7 @@ export const REACT_VERSION = pjson.dependencies.react;
 export const WFS_URL = 'https://omar-dev.ossim.io/omar-wfs/wfs';
 
 export const THUMBNAIL_SERVICE = {
-  url: 'https://omar-dev.ossim.io/omar-wms/imageSpace/getThumbnail',
-  size: 140,
+  url: 'https://omar-dev.ossim.io/omar-oms/imageSpace/getThumbnail',
+  size: 100,
   format: 'jpeg'
 }
